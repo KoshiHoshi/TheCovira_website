@@ -502,7 +502,9 @@ h3 {
   background: #f7f5f2;
   grid-template-columns: 1fr;
   justify-items: center;
-  gap: clamp(42px, 6vw, 96px);
+  /* Reduce top padding and overall vertical gap so intro appears sooner */
+  gap: clamp(28px, 4.5vw, 64px);
+  padding-top: 7%;
   text-align: center;
 }
 
@@ -543,6 +545,7 @@ h3 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: clamp(22px, 3vw, 34px);
+  margin-top: 80px !important;
 }
 
 .service-card {
