@@ -6,6 +6,9 @@ const clientList = document.querySelector("[data-client-list]");
 const workCarousel = document.querySelector("[data-work-carousel]");
 const workTrack = document.querySelector("[data-work-track]");
 const workDots = document.querySelectorAll(".work-dots button");
+const heroSection = document.querySelector(".hero");
+const heroSystem = document.querySelector("[data-hero-system]");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 const clients = [
   {
@@ -96,9 +99,57 @@ function initWorkCarousel() {
   startCarousel();
 }
 
+function initHeroSystem() {
+  if (!heroSection || !heroSystem || reduceMotion.matches || !window.matchMedia("(pointer: fine)").matches) return;
+
+  let targetX = 0;
+  let targetY = 0;
+  let currentX = 0;
+  let currentY = 0;
+  let animationFrame;
+
+  const render = () => {
+    currentX += (targetX - currentX) * 0.08;
+    currentY += (targetY - currentY) * 0.08;
+    heroSystem.style.setProperty("--hero-x", `${currentX.toFixed(2)}px`);
+    heroSystem.style.setProperty("--hero-y", `${currentY.toFixed(2)}px`);
+
+    if (Math.abs(targetX - currentX) > 0.02 || Math.abs(targetY - currentY) > 0.02) {
+      animationFrame = window.requestAnimationFrame(render);
+      return;
+    }
+
+    animationFrame = null;
+  };
+
+  const queueRender = () => {
+    if (!animationFrame) animationFrame = window.requestAnimationFrame(render);
+  };
+
+  const handlePointerMove = (event) => {
+    const rect = heroSection.getBoundingClientRect();
+    const relativeX = (event.clientX - rect.left) / rect.width - 0.5;
+    const relativeY = (event.clientY - rect.top) / rect.height - 0.5;
+
+    targetX = relativeX * 22;
+    targetY = relativeY * 16;
+    queueRender();
+  };
+
+  const resetPosition = () => {
+    targetX = 0;
+    targetY = 0;
+    queueRender();
+  };
+
+  heroSection.addEventListener("pointermove", handlePointerMove, { passive: true });
+  heroSection.addEventListener("pointerleave", resetPosition);
+}
+
 updateHeader();
 renderClients();
 initWorkCarousel();
+initHeroSystem();
 window.addEventListener("scroll", updateHeader, { passive: true });
 
 const observer = new IntersectionObserver(
