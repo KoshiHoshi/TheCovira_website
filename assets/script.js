@@ -56,6 +56,21 @@ function updateHeader() {
   header.classList.toggle("is-scrolled", window.scrollY > 8);
 }
 
+function initServicesDropdown() {
+  const dropdown = document.querySelector(".nav-dropdown");
+  const trigger = document.querySelector(".nav-dropdown-trigger");
+
+  if (!dropdown || !trigger) return;
+
+  const openMenu = () => trigger.setAttribute("aria-expanded", "true");
+  const closeMenu = () => trigger.setAttribute("aria-expanded", "false");
+
+  dropdown.addEventListener("pointerenter", openMenu);
+  dropdown.addEventListener("pointerleave", closeMenu);
+  dropdown.addEventListener("focusin", openMenu);
+  dropdown.addEventListener("focusout", closeMenu);
+}
+
 function initWorkCarousel() {
   if (!workCarousel || !workTrack || !workDots.length) return;
 
@@ -148,6 +163,7 @@ function initHeroSystem() {
 
 updateHeader();
 renderClients();
+initServicesDropdown();
 initWorkCarousel();
 initHeroSystem();
 window.addEventListener("scroll", updateHeader, { passive: true });

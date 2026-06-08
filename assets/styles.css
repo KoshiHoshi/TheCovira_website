@@ -93,14 +93,99 @@ a {
   text-transform: uppercase;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-dropdown-trigger {
   color: var(--ink);
   padding: 14px 2px;
   transition: color 180ms ease;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-dropdown-trigger:hover,
+.nav-dropdown-trigger:focus-visible {
   color: var(--accent);
+}
+
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.nav-dropdown-trigger::after {
+  content: "▾";
+  margin-left: 0.5em;
+  font-size: 0.72em;
+  opacity: 0.72;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 12px);
+  width: min(22rem, 100vw - 56px);
+  background: var(--panel);
+  border: 1px solid rgba(207, 212, 219, 0.45);
+  border-radius: 22px;
+  box-shadow: 0 24px 40px rgba(5, 5, 5, 0.08);
+  padding: 22px 20px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 220ms ease, transform 220ms ease, visibility 0ms linear 220ms;
+  z-index: 15;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown:focus-within .nav-dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition-delay: 0s;
+}
+
+.nav-dropdown-intro {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.nav-dropdown-intro span {
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.nav-dropdown-intro p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.nav-dropdown-link {
+  display: block;
+  color: var(--ink);
+  font-weight: 700;
+  padding: 10px 10px;
+  border-radius: 14px;
+  transition: background 180ms ease, color 180ms ease;
+}
+
+.nav-dropdown-link + .nav-dropdown-link {
+  margin-top: 10px;
+}
+
+.nav-dropdown-link:hover,
+.nav-dropdown-link:focus-visible {
+  color: var(--accent-deep);
+  background: rgba(204, 27, 27, 0.08);
+  outline: none;
 }
 
 .section {
@@ -416,7 +501,7 @@ h3 {
 
 .client-strip h2 {
   max-width: none;
-  margin: 0;
+  margin: 0 0 24px 0;
   text-align: center;
   font-size: clamp(1.25rem, 1.8vw, 2rem);
   letter-spacing: 0.1em;
@@ -471,6 +556,8 @@ h3 {
   max-width: 100%;
   max-height: 82px;
   object-fit: contain;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .split {
