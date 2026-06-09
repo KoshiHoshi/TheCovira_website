@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Under Construction</title>
+</head>
+<body>
+
+    <h1>Page Under Construction</h1>
+
+    <p>
+        We're currently working on this page.
+        <br><br>
+        Redirecting you to the <a href="https://zepfly.com/">Zepfly Studio's website</a> in
+        <span id="countdown">5</span>
+        seconds...
+    </p>
+
+    <script>
+        let timeLeft = 5;
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            document.getElementById("countdown").textContent = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                window.location.href = "https://zepfly.com/";
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
