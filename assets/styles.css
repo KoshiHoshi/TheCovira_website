@@ -600,6 +600,138 @@ h3 {
   background: var(--panel);
 }
 
+.about-covira {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 245, 242, 0.88)),
+    var(--panel);
+  border-bottom: 1px solid rgba(207, 212, 219, 0.78);
+  padding-top: clamp(44px, 4vw, 56px);
+  padding-bottom: clamp(44px, 4vw, 56px);
+}
+
+.about-covira::before {
+  content: "";
+  position: absolute;
+  inset: 0 clamp(28px, 7vw, 132px) auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(207, 75, 75, 0.42), transparent);
+}
+
+.about-covira-inner {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(340px, 0.85fr);
+  align-items: center;
+  gap: clamp(52px, 7vw, 96px);
+  width: min(100%, 1200px);
+  margin: 0 auto;
+}
+
+.about-label {
+  margin: 0;
+  color: var(--accent);
+  font-family: var(--body);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  line-height: 1.1;
+}
+
+.about-covira-copy {
+  display: grid;
+  gap: 14px;
+  max-width: 720px;
+}
+
+.about-covira-copy h2 {
+  max-width: 720px;
+  font-size: clamp(2rem, 3.2vw, 3.25rem);
+  line-height: 1;
+}
+
+.about-covira-copy p {
+  margin: 0;
+  color: #55595f;
+  font-size: clamp(0.96rem, 1vw, 1.04rem);
+  font-weight: 500;
+  line-height: 1.58;
+}
+
+.about-principles {
+  display: grid;
+  gap: 12px;
+}
+
+.about-principle-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+  min-height: 0;
+  padding: 16px 20px;
+  border: 1px solid rgba(207, 212, 219, 0.84);
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 12px 28px rgba(5, 5, 5, 0.04);
+  transition: transform 240ms ease, box-shadow 240ms ease, border-color 240ms ease, background 240ms ease;
+}
+
+.about-principle-card:hover {
+  transform: translateX(6px);
+  border-color: rgba(207, 75, 75, 0.36);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 38px rgba(5, 5, 5, 0.075);
+}
+
+.about-principle-card span {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(207, 75, 75, 0.32);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.about-principle-card h3,
+.about-principle-card p {
+  margin: 0;
+}
+
+.about-principle-card h3 {
+  max-width: none;
+  font-size: clamp(1.05rem, 1.25vw, 1.28rem);
+  line-height: 1.1;
+}
+
+.about-principle-card p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  font-weight: 500;
+  line-height: 1.45;
+  margin-top: 6px;
+}
+
+.about-button {
+  justify-self: start;
+  min-width: min(100%, 224px);
+  min-height: 48px;
+  margin-top: 4px;
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--panel);
+}
+
+.about-button:hover,
+.about-button:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--ink);
+}
+
 #why {
   grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
   gap: clamp(48px, 6vw, 92px);
@@ -1302,6 +1434,23 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .about-covira-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .about-principles {
+    grid-template-columns: 1fr;
+  }
+
+  .about-principle-card {
+    min-height: 0;
+  }
+
+  .about-principle-card h3 {
+    max-width: none;
+  }
+
   #why {
     grid-template-columns: 1fr;
   }
@@ -1374,6 +1523,19 @@ textarea {
 
   .section {
     padding-block: 72px;
+  }
+
+  .about-covira {
+    padding-top: 58px;
+    padding-bottom: 58px;
+  }
+
+  .about-covira-copy h2 {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .about-button {
+    width: 100%;
   }
 
   .hero {
