@@ -240,7 +240,11 @@
 /* WORK SECTION */
 
 .work-showcase {
-    padding-top: 100px;
+    padding: clamp(28px, 4.5vw, 56px) clamp(28px, 7vw, 132px) clamp(38px, 5vw, 72px);
+}
+
+.work-showcase .section-heading {
+    margin-bottom: clamp(24px, 4vw, 36px);
 }
 
 .project-media img {
@@ -248,7 +252,7 @@
 }
 
 .project-card {
-    min-height: 650px;
+    min-height: 520px;
 }
 
 /* WHY SECTION */
