@@ -258,18 +258,19 @@
         <p>Tell us what you&rsquo;re building and we&rsquo;ll help you figure out the next step. No pressure, the first conversation is on us.</p>
       </div>
 
-      <form class="contact-form reveal reveal-delay-1">
+      <form class="contact-form reveal reveal-delay-1" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="bc183ad8-e3d3-4df9-87e5-53f8a21d8a7d" />
         <label>
           Name
-          <input type="text" name="name" placeholder="Your name" autocomplete="name" />
+          <input type="text" name="name" placeholder="Your name" autocomplete="name" required />
         </label>
         <label>
           Email
-          <input type="email" name="email" placeholder="you@business.com" autocomplete="email" />
+          <input type="email" name="email" placeholder="you@business.com" autocomplete="email" required />
         </label>
         <label>
           Project
-          <textarea name="project" placeholder="Tell us about your business or what you&rsquo;re looking to build." rows="5"></textarea>
+          <textarea name="message" placeholder="Tell us about your business or what you&rsquo;re looking to build." rows="5" required></textarea>
         </label>
         <button class="button primary" type="submit">Send message</button>
         <p class="form-note" role="status" aria-live="polite"></p>
