@@ -192,9 +192,36 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 });
 
 if (contactForm) {
-  contactForm.addEventListener("submit", (event) => {
+  const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+  contactForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    formNote.textContent = "Thanks. Your message is ready to connect to a form service.";
-    contactForm.reset();
+
+    const formData = new FormData(contactForm);
+
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = "Sending...";
+    submitBtn.disabled = true;
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        formNote.textContent = "Thank you! Your message has been sent successfully.";
+        contactForm.reset();
+      } else {
+        formNote.textContent = data.message || "Failed to send your message.";
+      }
+    } catch (error) {
+      formNote.textContent = "Something went wrong. Please try again.";
+    } finally {
+      submitBtn.textContent = originalText;
+      submitBtn.disabled = false;
+    }
   });
 }
