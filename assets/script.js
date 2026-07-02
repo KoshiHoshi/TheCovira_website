@@ -10,21 +10,27 @@ const heroSection = document.querySelector(".hero");
 const heroSystem = document.querySelector("[data-hero-system]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
+// Debounce scroll updates
+let scrollTimeout;
+function updateHeader() {
+  header.classList.toggle("is-scrolled", window.scrollY > 8);
+}
+
 const clients = [
   {
     name: "Vie Loras",
     url: "https://www.vieloras.com",
-    logo: "assets/Clients /VIE LORAS.avif",
+    logo: "assets/Clients/VIE LORAS.avif",
   },
   {
     name: "Him Arogya",
     url: "https://himarogya.com",
-    logo: "assets/Clients /Himarogya.avif",
+    logo: "assets/Clients/Himarogya.avif",
   },
   {
     name: "Zepfly Studio",
     url: "https://zepfly.com",
-    logo: "assets/Clients /Zepylf.png",
+    logo: "assets/Clients/Zepylf.png",
   },
 ];
 
@@ -36,7 +42,7 @@ function renderClients() {
       .map(
         (client) => `
         <a class="client-logo" href="${client.url}" target="_blank" rel="noopener" aria-label="Visit ${client.name}"${isDuplicate ? ' tabindex="-1"' : ""}>
-          <img src="${client.logo}" alt="${client.name}" />
+          <img src="${client.logo}" alt="${client.name}" loading="lazy" />
         </a>
       `
       )
@@ -45,8 +51,6 @@ function renderClients() {
   clientList.innerHTML = `
     <div class="client-track">
       <div class="client-group">${createClientMarkup()}</div>
-      <div class="client-group" aria-hidden="true">${createClientMarkup(true)}</div>
-      <div class="client-group" aria-hidden="true">${createClientMarkup(true)}</div>
       <div class="client-group" aria-hidden="true">${createClientMarkup(true)}</div>
     </div>
   `;
@@ -122,6 +126,7 @@ function initHeroSystem() {
   let currentX = 0;
   let currentY = 0;
   let animationFrame;
+  let throttleTimer;
 
   const render = () => {
     currentX += (targetX - currentX) * 0.08;
@@ -148,12 +153,23 @@ function initHeroSystem() {
 
     targetX = relativeX * 22;
     targetY = relativeY * 16;
-    queueRender();
+    
+    // Enable will-change for performance during active animation
+    heroSystem.style.willChange = "transform";
+    
+    // Throttle render queue to avoid excessive RAF calls
+    if (!throttleTimer) {
+      queueRender();
+      throttleTimer = setTimeout(() => {
+        throttleTimer = null;
+      }, 16);
+    }
   };
 
   const resetPosition = () => {
     targetX = 0;
     targetY = 0;
+    heroSystem.style.willChange = "auto";
     queueRender();
   };
 
@@ -166,7 +182,17 @@ renderClients();
 initServicesDropdown();
 initWorkCarousel();
 initHeroSystem();
-window.addEventListener("scroll", updateHeader, { passive: true });
+
+// Throttle scroll events with RAF for better performance
+let scrollFrameId;
+window.addEventListener("scroll", () => {
+  if (!scrollFrameId) {
+    scrollFrameId = requestAnimationFrame(() => {
+      updateHeader();
+      scrollFrameId = null;
+    });
+  }
+}, { passive: true });
 
 const observer = new IntersectionObserver(
   (entries) => {
@@ -181,13 +207,15 @@ const observer = new IntersectionObserver(
 
 revealItems.forEach((item) => observer.observe(item));
 
+// Optimized smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
     const target = document.querySelector(link.getAttribute("href"));
     if (!target) return;
 
     event.preventDefault();
-    target.scrollIntoView({ behavior: "smooth" });
+    // Use CSS scroll-behavior instead of JS for better performance
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   });
 });
 
